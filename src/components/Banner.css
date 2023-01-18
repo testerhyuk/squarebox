@@ -43,7 +43,7 @@
     margin-left: 40px;
     padding-top: 140px;
     height: 190px;
-  }
+}
 .banner_title {
     font-size: 3rem;
     font-weight: 800;
@@ -65,7 +65,7 @@
         transparent,
         rgba(37, 37, 37, 0.61),
         #111
-);
+    );
 }
 .banner_buttons {
     display: flex;

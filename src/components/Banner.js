@@ -16,7 +16,6 @@ export default function Banner() {
     const fetchData = async () => {
         // 현재 상영중인 영화 정보 가져오기
         const request = await axios.get(requests.fetchNowPlaying);
-        console.log(request)
         // 여러 영화 중 영화 하나의 ID 가져오기
         const movieId = request.data.results[Math.floor(Math.random() * request.data.results.length)].id;
 
@@ -65,21 +64,27 @@ export default function Banner() {
             </header>
           )
     } else{
-        return(
-            <Container>
-                <HomeContainer>
-                    <Iframe
-                        src={`https://www.youtube.com/embed/${movie.videos.results[0].key}
-                        ?controls=0&autoplay=1&loop=1&mute=0&playlist=${movie.videos.results[0].key}`}
-                        width='640'
-                        height='360'
-                        allow="autoplay; fullscreen"
-                        frameborder='0'
-                        allowFullScreen
-                    ></Iframe>
-                </HomeContainer>
-            </Container>
-        )
+        if (movie.videos.results[0]?.key === undefined) {
+            return (
+                <h1>영화 없음</h1>
+            )
+        }else {
+            return(
+                <Container>
+                    <HomeContainer>
+                        <Iframe
+                            src={`https://www.youtube.com/embed/${movie.videos.results[0].key}
+                            ?controls=1&autoplay=1&loop=1&mute=0&playlist=${movie.videos.results[0].key}`}
+                            width='640'
+                            height='360'
+                            allow="autoplay; fullscreen"
+                            frameborder='0'
+                            allowFullScreen
+                        ></Iframe>
+                    </HomeContainer>
+                </Container>
+            )
+        }
     }
 }
 
