@@ -40,14 +40,14 @@
     }
 }
 .banner_contents {
-    margin-left: 40px;
-    padding-top: 140px;
+    margin-left: 60px;
+    padding-top: 150px;
     height: 190px;
 }
 .banner_title {
     font-size: 3rem;
     font-weight: 800;
-    padding-bottom: 0.5rem;
+    padding-bottom: 4rem;
 }
 .banner_description {
     width: 45rem;
@@ -70,6 +70,7 @@
 .banner_buttons {
     display: flex;
     flex-direction: row;
+    height: 50px;
 }
 .banner_button {
     display: flex;
@@ -105,4 +106,8 @@
 
 .space {
     margin-left: 4px;
+}
+
+.info_img {
+    padding-right: 5px;
 }
