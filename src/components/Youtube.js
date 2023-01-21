@@ -1,13 +1,17 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom';
 import styled from "styled-components";
 
-export default function Youtube(movie) {
+export default function Youtube() {
+    const location = useLocation();
+    const {movie} = location.state
+
   return (
     <Container>
         <HomeContainer>
             <Iframe
-                src={`https://www.youtube.com/embed/${movie.movieURL ? movie.movieURL.videos.results[0]?.key : movie.videos.results[0]?.key}
-                    ?controls=1&autoplay=1&loop=1&mute=0&playlist=${movie.movieURL ? movie.movieURL.videos.results[0]?.key : movie.videos.results[0]?.key}`}
+                src={`https://www.youtube.com/embed/${movie.videos.results[0]?.key}
+                    ?controls=1&autoplay=1&loop=1&mute=0&playlist=${movie.videos.results[0]?.key}`}
                 width='640'
                 height='360'
                 allow="autoplay; fullscreen"

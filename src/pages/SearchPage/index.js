@@ -23,7 +23,6 @@ export default function SearchPage() {
             const request = await axios.get(
                 `/search/multi?include_adult=false&query=${searchTerm}`
             );
-            console.log(request)
             setSearchResults(request.data.results);
         } catch (error) {
             console.log("error");

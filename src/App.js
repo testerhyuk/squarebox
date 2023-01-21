@@ -24,10 +24,9 @@ function App() {
           <Route index element={<MainPage />} />
           <Route path=':movieID' element={<DetailPage />} />
           <Route path='search' element={<SearchPage />} />
+          <Route path='video' element={<Youtube />} />
         </Route>
-        <Route path='/video' element={<Youtube />} />
       </Routes>
-
     </div>
   );
 }

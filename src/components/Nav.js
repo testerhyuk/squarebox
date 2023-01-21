@@ -47,6 +47,7 @@ export default function Nav() {
         if (e.target.value.length === 0){
             setSearchValue(e.target.value);
             navigate('/');
+            
         }else {
             setSearchValue(e.target.value);
             navigate(`/search?q=${e.target.value}`);
@@ -59,7 +60,7 @@ export default function Nav() {
             alt='squarebox logo'
             src={squarebox}
             className='nav_logo'
-            onClick={() => navigate('/')}
+            onClick={() => (window.location.href = "/")}
         />
         { searchHiddenBar ? (
             <img 

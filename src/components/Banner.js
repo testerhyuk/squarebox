@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import requests from "../api/request";
 import React from 'react';
 import './Banner.css';
-import Youtube from "./Youtube";
 import info from '../images/info.png'
+import { useNavigate } from "react-router-dom";
+import MovieModal from "./MovieModal";
 
 export default function Banner() {
     const [movie, setMovie] = useState([]);
-    const [isClicked, setIsClicked] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(()=> {
         fetchData();
@@ -25,53 +27,71 @@ export default function Banner() {
         });
         setMovie(movieDetail);
     }
+   
     const truncate = (str, n) => {
         return str?.length > n ? str.substr(0, n-1) + '...' : str;
     };
 
-    if (!isClicked) {
-        return (
-            <header
-                className="banner"
-                style={{
-                    backgroundImage: `url('https://image.tmdb.org/t/p/original/${movie?.backdrop_path}')`,
-                    backgroundPosition: 'top center',
-                    backgroundSize: 'cover'
-                }}
-            >
-                <div className="banner_contents">
-                    <h1 className="banner_title">
-                        {movie?.title || movie?.name || movie?.original_name}
-                    </h1>
-                    <div className="banner_buttons">
-                        <button 
-                            className="banner_button play"
-                            onClick={() => setIsClicked(true)}
-                        >
-                            ▶ 재생
-                        </button>
-                        <button className="banner_button info">
-                            <div className="space"></div>
-                            <img 
-                                alt="info"
-                                src={info}
-                                className='info_img'
-                                onClick={() => setIsClicked(true)}
-                            />
-                            상세 정보
-                        </button>
-                        
-                    </div>
-                    <h1 className="banner_description">
-                        {truncate(movie?.overview, 100)}
-                    </h1>
-                </div>
-                <div className="banner--fadeBottom" />
-            </header>
-          )
-    } else{
-        return(
-            <Youtube {...movie} />
-        )
+    const navigateVideo = () => {
+        navigate('video', {
+            state: {
+                movie: {...movie}
+            }
+        })
     }
+
+    const handleClick = () => {
+        setModalOpen(true);
+    }
+
+    return (
+        <header
+            className="banner"
+            style={{
+                backgroundImage: `url('https://image.tmdb.org/t/p/original/${movie?.backdrop_path}')`,
+                backgroundPosition: 'top center',
+                backgroundSize: 'cover'
+            }}
+        >
+            <div className="banner_contents">
+                <h1 className="banner_title">
+                    {movie?.title || movie?.name || movie?.original_name}
+                </h1>
+                <div className="banner_buttons">
+                    <button 
+                        className="banner_button play"
+                        onClick={navigateVideo}
+                    >
+                        ▶ 재생
+                    </button>
+                    <button 
+                        className="banner_button info"
+                        onClick={() => handleClick()}
+                    >
+                        <div className="space"></div>
+                        <img 
+                            alt="info"
+                            src={info}
+                            className='info_img'
+                        />
+                        상세 정보
+                    </button>
+                    
+                </div>
+                <h1 className="banner_description">
+                    {truncate(movie?.overview, 100)}
+                </h1>
+            </div>
+            <div className="banner--fadeBottom" />
+            <div>
+                {
+                    modalOpen &&
+                    (<MovieModal 
+                        {...movie}
+                        setModalOpen={setModalOpen}
+                    />)
+                }
+            </div>
+        </header>
+    )
 }
