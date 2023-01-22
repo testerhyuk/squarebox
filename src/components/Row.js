@@ -39,9 +39,8 @@ export default function Row({ title, fetchUrl, isLargeRow, id}) {
                 </div>
                 <div id={id} className='row_posters'>
                     {movies.map((movie) => (
-                        <div>
+                        <div key={movie.id}>
                             <img
-                                key={movie.id}
                                 onClick={() => handleClick(movie)}
                                 className={`row_poster ${isLargeRow && 'row_posterLarge'}`}
                                 src={isLargeRow ? 

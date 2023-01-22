@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import './MovieModal.css'
 import { useState } from 'react';
-import styled from 'styled-components';
 import axios from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
+import useOnClickOutside from '../../hooks/useOnClickOutside'
 
 function MovieModal({
     id,
@@ -18,6 +18,8 @@ function MovieModal({
 }) {
     const [movie, setMovie] = useState({})
     const navigate = useNavigate();
+    const modalRef = useRef(null);
+    useOnClickOutside(modalRef, () => {setModalOpen(false)});
 
     useEffect(() => {
         fetchVideoURL();
@@ -37,11 +39,11 @@ function MovieModal({
             }
         })
     }
+
     return (
         <div className='presentation'>
             <div className='wrapper-modal'>
-                <Layer onClick={()=> setModalOpen(false)}></Layer>
-                <div className='modal'>
+                <div className='modal' ref={modalRef}>
                     <span onClick={()=> setModalOpen(false)} className='modal-close'>
                         X
                     </span>
@@ -69,14 +71,9 @@ function MovieModal({
                         <p className='modal_overview'>{overview}</p>
                     </div>
                 </div>
-                <Layer onClick={()=> setModalOpen(false)}></Layer>
             </div>
         </div>
     )
 }
-
-const Layer = styled.div`
-    width:15%;
-`
 
 export default MovieModal;

@@ -5,26 +5,16 @@ import search from '../images/search.png';
 import './Nav.css';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import useOnClickOutside from '../hooks/useOnClickOutside'
 
 export default function Nav() {
     const [show, setShow] = useState(false);
     const [searchHiddenBar, setSearchHiddenBar] = useState(true);
     const [searchValue, setSearchValue] = useState('');
-    const wrapperRef = useRef(null);
+    const inputRef = useRef(null);
     const navigate = useNavigate();
-    
-    function handleClickOutside(event) {
-        if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-            handleSearch();
-        }
-    }
-    
-    useEffect(() => {
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    });
+
+    useOnClickOutside(inputRef, () => {setSearchHiddenBar(searchHiddenBar)});
 
     const handleSearch = () => {
         setSearchHiddenBar(!searchHiddenBar)
@@ -73,7 +63,7 @@ export default function Nav() {
             <SearchBar>
                 <InputBar 
                     placeholder='영화 제목을 입력하세요' 
-                    ref={wrapperRef} 
+                    ref={inputRef} 
                     value={searchValue}
                     onChange={handleChange}
                     type='text'
