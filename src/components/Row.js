@@ -4,6 +4,15 @@ import './Row.css'
 import MovieModal from './MovieModal';
 import default_img from '../images/default_img.jpg';
 
+// swiper
+import { Navigation } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import 'swiper/css'
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+
 export default function Row({ title, fetchUrl, isLargeRow, id}) {
     const [movies, setMovies] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
@@ -26,49 +35,52 @@ export default function Row({ title, fetchUrl, isLargeRow, id}) {
     return (
         <section className='row'>
             <h2>{title}</h2>
-            <div className='slider'>
-                <div 
-                    className='slider_arrow-left'
-                    onClick={() => {
-                        document.getElementById(id).scrollLeft -= window.innerWidth + 80;
-                    }}
-                >
-                    <span className='arrow'>
-                        {'<'}
-                    </span>
-                </div>
+            <Swiper
+                modules={[Navigation]}
+                loop={true}
+                navigation
+                breakpoints={{
+                    1378: {
+                        slidesPerView: 7,
+                        slidesPerGroup: 7,
+                    },
+                    998: {
+                        slidesPerView: 5,
+                        slidesPerGroup: 5,
+                    },
+                    625: {
+                        slidesPerView: 4,
+                        slidesPerGroup: 4,
+                    },
+                    0: {
+                        slidesPerView: 3,
+                        slidesPerGroup: 3,
+                    }
+                }}
+            >
                 <div id={id} className='row_posters'>
                     {movies.map((movie) => (
                         <div key={movie.id}>
-                            <img
-                                onClick={() => handleClick(movie)}
-                                className={`row_poster ${isLargeRow && 'row_posterLarge'}`}
-                                src={isLargeRow ? 
-                                    (movie.poster_path === null ? default_img : img_url + movie.poster_path) : 
-                                    (movie.backdrop_path === null ? default_img : img_url + movie.backdrop_path)
-                                }
-                                loading='lazy'
-                                alt={movie.name}
-                            />
-                            <h1 className='img_movie_name'>{movie?.title || movie?.name || movie?.original_name}</h1>
+                            <SwiperSlide>
+                                <img
+                                    onClick={() => handleClick(movie)}
+                                    className={`row_poster ${isLargeRow && 'row_posterLarge'}`}
+                                    src={isLargeRow ? 
+                                        (movie.poster_path === null ? default_img : img_url + movie.poster_path) : 
+                                        (movie.backdrop_path === null ? default_img : img_url + movie.backdrop_path)
+                                    }
+                                    loading='lazy'
+                                    alt={movie.name}
+                                />
+                                <h1 className='img_movie_name'>{movie?.title || movie?.name || movie?.original_name}</h1>
+                            </SwiperSlide> 
                         </div>
                     ))}
                 </div>
-                <div 
-                    className='slider_arrow-right'
-                    onClick={() => {
-                        document.getElementById(id).scrollLeft += window.innerWidth - 80;
-                    }}
-                >
-                    <span className='arrow'>
-                        {'>'}
-                    </span>
-                </div>
-            </div>
+            </Swiper>
                 {
                     modalOpen && ( <MovieModal {...movieSelected} setModalOpen={setModalOpen} /> )
                 }
-
         </section>
     )
 }
