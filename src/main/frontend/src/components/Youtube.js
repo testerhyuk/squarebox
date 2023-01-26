@@ -1,25 +1,30 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom';
 import styled from "styled-components";
+import Nav from './Nav';
 
 export default function Youtube() {
     const location = useLocation();
     const {movie} = location.state
 
   return (
-    <Container>
-        <HomeContainer>
-            <Iframe
-                src={`https://www.youtube.com/embed/${movie.videos.results[0]?.key}
-                    ?controls=1&autoplay=1&loop=1&mute=0&playlist=${movie.videos.results[0]?.key}`}
-                width='640'
-                height='360'
-                allow="autoplay; fullscreen"
-                frameborder='0'
-                allowfullscreen
-            ></Iframe>
-        </HomeContainer>
-    </Container>
+    <div>
+        <Nav />
+        <Container>
+            <HomeContainer>
+                <Iframe
+                    src={`https://www.youtube.com/embed/${movie.videos.results[0]?.key}
+                        ?controls=1&autoplay=1&loop=1&mute=0&playlist=${movie.videos.results[0]?.key}`}
+                    width='640'
+                    height='360'
+                    allow="autoplay; fullscreen"
+                    frameborder='0'
+                    allowfullscreen
+                ></Iframe>
+            </HomeContainer>
+        </Container>
+    </div>
+    
   )
 }
 

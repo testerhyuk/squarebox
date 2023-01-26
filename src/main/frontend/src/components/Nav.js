@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import squarebox from '../images/squarebox.png';
-import myinfo from '../images/myinfo.png';
+import logout from '../images/logout.png';
 import search from '../images/search.png';
 import './Nav.css';
 import styled from 'styled-components';
@@ -36,11 +36,11 @@ export default function Nav() {
     const handleChange = (e) => {
         if (e.target.value.length === 0){
             setSearchValue(e.target.value);
-            navigate('/');
+            navigate('/browse');
             
         }else {
             setSearchValue(e.target.value);
-            navigate(`/search?q=${e.target.value}`);
+            navigate(`/browse/search?q=${e.target.value}`);
         }
     }
 
@@ -50,7 +50,7 @@ export default function Nav() {
             alt='squarebox logo'
             src={squarebox}
             className='nav_logo'
-            onClick={() => (window.location.href = "/")}
+            onClick={() => navigate('/browse')}
         />
         { searchHiddenBar ? (
             <img 
@@ -74,8 +74,9 @@ export default function Nav() {
         
         <img 
             alt='user logo'
-            src={myinfo}
+            src={logout}
             className='nav_avatar'
+            onClick={() => navigate('/')}
         />
     </nav>
   )
